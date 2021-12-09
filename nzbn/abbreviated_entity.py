@@ -234,4 +234,4 @@ class AbbreviatedEntity:
             access_token=access_token
         )
 
-        return Self.decode_many(result)
+        return Self.decode_encapsulated_list(result)
