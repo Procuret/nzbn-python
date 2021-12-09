@@ -2,3 +2,8 @@ bin/*
 lib/*
 pyvenv.cfg
 configuration.json
+deploy
+nzbn.egg-info
+dist/*
+build/*
+*.pyc
