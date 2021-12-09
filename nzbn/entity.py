@@ -5,7 +5,7 @@ author: hugh@procuret.com
 © Procuret Operating Pty Ltd
 """
 from typing import List, Optional, Dict, Any
-from nzbn.address import Address
+from nzbn.address import Address, AddressType
 from nzbn.disposition import Disposition
 from nzbn.entity_type import EntityType
 from nzbn.entity_status import EntityStatus
@@ -66,6 +66,23 @@ class Entity:
         lambda s: s._disposition
     )
     addresses: List[Address] = property(lambda s: s._addresses)
+
+    registered_address: Optional[Address] = property(
+        lambda s: s._parse_registered_address()
+    )
+
+    def _parse_registered_address(self) -> Optional[Address]:
+
+        registered = [
+            a for a in self._addresses if (
+                a.not_expired and a.address_type == AddressType.REGISTERED
+            )         
+        ]
+
+        if len(registered) < 1:
+            return None
+        
+        return registered[0]
 
     @classmethod
     def decode(

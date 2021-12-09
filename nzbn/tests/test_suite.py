@@ -29,7 +29,8 @@ if '--last' in sys.argv[1:]:
 
 TESTS = [
     cases.RetrieveEntity,
-    cases.SearchByName
+    cases.SearchByName,
+    cases.ParseRegisteredAddress
 ]
 
 

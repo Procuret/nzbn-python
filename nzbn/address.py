@@ -4,6 +4,7 @@ Address Module
 author: hugh@procuret.com
 © Procuret Operating Pty Ltd
 """
+from datetime import datetime
 from nzbn.time import NzbnTime
 from enum import Enum
 from typing import Optional, Type, TypeVar, Dict, List
@@ -51,6 +52,30 @@ class Address:
         self._paf_id = paf_id
 
         return
+
+    unique_identifier = property(lambda s: s._unqiue_identifier)
+    start_date = property(lambda s: s._start_date)
+    end_date = property(lambda s: s._end_date)
+
+    line1: str = property(lambda s: s._address_1)
+    line2: Optional[str] = property(lambda s: s._address_2)
+    line3: Optional[str] = property(lambda s: s._address_3)
+    line4: Optional[str] = property(lambda s: s._address_4)
+
+    post_code: Optional[str] = property(lambda s: s._post_code)
+    country_code: Optional[str] = property(lambda s: s._country_code)
+
+    address_type: Optional[AddressType] = property(
+        lambda s: s._address_type
+    )
+    paf_id: Optional[str] = property(lambda s: s._paf_id)
+
+    expired: bool = property(
+        lambda s: (
+            s._end_date is not None and s._end_date <= datetime.utcnow()
+        )
+    )
+    not_expired: bool = property(lambda s: not s.expired)
 
     @classmethod
     def decode(
