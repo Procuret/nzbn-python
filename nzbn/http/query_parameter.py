@@ -5,6 +5,7 @@ author: hugh@procuret.com
 © Procuret Operating Pty Ltd
 """
 from typing import Any, TypeVar, Type, List
+from urllib.parse import quote
 
 Self = TypeVar('Self', bound='QueryParameter')
 
@@ -51,11 +52,11 @@ class QueryParameter:
     def _represent(value: Any) -> str:
 
         if isinstance(value, str):
-            return value
+            return quote(value)
 
         if isinstance(value, bool):
             if value is True:
                 return 'true'
             return 'false'
 
-        return str(value)
+        return quote(str(value))
