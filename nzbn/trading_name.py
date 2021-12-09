@@ -5,7 +5,7 @@ author: hugh@procuret.com
 © Procuret Operating Pty Ltd
 """
 from typing import Type,  TypeVar, Dict, List
-from source.time import NzbnTime
+from nzbn.time import NzbnTime
 
 Self = TypeVar('Self', bound='TradingName')
 
