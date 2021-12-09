@@ -4,7 +4,7 @@ Entity Module
 author: hugh@procuret.com
 © Procuret Operating Pty Ltd
 """
-from typing import List, Optional, Dict, Union, Any
+from typing import List, Optional, Dict, Any
 from nzbn.disposition import Disposition
 from nzbn.entity_type import EntityType
 from nzbn.entity_status import EntityStatus
@@ -63,45 +63,11 @@ class Entity:
     )
 
     @classmethod
-    def decode_encapsulated_list(
-        Self: Type[Self],
-        data: Dict[str, Any]
-    ) -> List[Self]:
-
-        total = data['totalItems']
-        page = data['page']
-        page_size = data['pageSize']
-
-        offset = (page - 1) * page_size
-
-        sequence = offset
-
-        entities: List[Entity] = []
-
-        for entity_data in data['items']:
-            sequence += 1
-            disposition = Disposition(
-                sequence=sequence,
-                offset=offset,
-                count=total,
-                limit=page_size
-            )
-            entities.append(Entity.decode(
-                data=entity_data,
-                disposition=disposition
-            ))
-            continue
-        
-        return entities
-
-    @classmethod
     def decode(
         Self: Type[Self],
         data: Dict[str, Any],
         disposition: Optional[Disposition] = None
     ) -> Self:
-        import json
-        #print(json.dumps(data, indent=4))
 
         return Self(
             entity_name=data['entityName'],
@@ -152,120 +118,3 @@ class Entity:
             return None
         
         return Self.decode(result)
-
-    @classmethod
-    def retrieve_many(
-        Self: Type[Self],
-        access_token: str,
-        page: int = 0,
-        limit: int = 20,
-        search_text: Optional[str] = None,
-        entity_status: Optional[Union[
-            EntityStatus,
-            List[EntityStatus]
-        ]] = None,
-        entity_type: Optional[Union[
-            EntityType,
-            List[EntityType]
-        ]] = None
-    ) -> List[Self]:
-
-
-        if not isinstance(page, int):
-            raise NzbnTypeError('offset', page, 'int')
-
-        if not isinstance(limit, int):
-            raise NzbnTypeError('limit', limit, 'int')
-
-        if page < 0:
-            raise NzbnError('page must be >= 0')
-
-        if limit < 0:
-            raise NzbnError('limit must be >= 0')
-
-        parameters: List[QueryParameter] = [
-            QueryParameter(key='page', value=page),
-            QueryParameter(key='page-size', value=limit)
-        ]
-
-        if search_text is not None:
-            if not isinstance(search_text, str):
-                raise NzbnTypeError(
-                    'search_text',
-                    search_text,
-                    'Optional[str]'
-                )
-            parameters.append(QueryParameter(
-                key='search-term',
-                value=search_text
-            ))
-            pass
-
-        if entity_status is not None:
-
-            def raise_error() -> None:
-                raise NzbnTypeError(
-                    'entity_status',
-                    entity_status,
-                    'Optional[Union[EntityStatus, List[EntityStatus]]]'
-                )
-
-            if isinstance(entity_status, list):
-                if False in [
-                    isinstance(e, EntityStatus) for e in entity_status
-                ]:
-                    raise_error()
-                pass
-            else:
-                if not isinstance(entity_status, EntityStatus):
-                    raise_error()
-    
-            parameters.append(QueryParameters(
-                key='entity-status',
-                value=(
-                    ','.join([e.value for e in entity_status] if (
-                        isinstance(entity_status, list)
-                    ) else entity_status.value
-                )
-            )))
-
-            pass
-
-        if entity_type is not None:
-
-            def raise_error() -> None:
-                raise NzbnTypeError(
-                    'entity_type',
-                    entity_status,
-                    'Optional[Union[EntityType, List[EntityType]]]'
-                )
-
-            if isinstance(entity_type, list):
-                if False in [
-                    isinstance(e, EntityType) for e in entity_type
-                ]:
-                    raise_error()
-                pass
-            else:
-                if not isinstance(entity_type, EntityType):
-                    raise_error()
-    
-            parameters.append(QueryParameters(
-                key='entity-type',
-                value=(
-                    ','.join([e.value for e in entity_type] if (
-                        isinstance(entity_type, list)
-                    ) else entity_type.value
-                )
-            )))
-
-            pass
-
-        result = ApiRequest.make(
-            path=Self.path,
-            method=HTTPMethod.GET,
-            query_parameters=QueryParameters(parameters),
-            access_token=access_token
-        )
-
-        return Self.decode_many(result)
