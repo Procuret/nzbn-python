@@ -4,7 +4,6 @@ Entity Module
 author: hugh@procuret.com
 © Procuret Operating Pty Ltd
 """
-from enum import Enum
 from typing import List, Optional, Dict, Union, Any
 from nzbn.disposition import Disposition
 from nzbn.entity_type import EntityType
@@ -126,6 +125,38 @@ class Entity:
         )
 
     @classmethod
+    def retrieve(
+        Self: Type[Self],
+        access_token: str,
+        nzbn: str
+    ) -> Optional[Self]:
+
+        if not isinstance(access_token, str):
+            raise NzbnTypeError('access_token', access_token, 'str')
+        
+        if not isinstance(nzbn, str):
+            raise NzbnTypeError('nzbn', nzbn, 'str')
+        
+        if len(nzbn) != 13:
+            raise NzbnError('nzbn must be 13 characters')
+        
+        for character in nzbn:
+            if character not in '0123456789':
+                raise NzbnError('nzbn must be only numeric characters')
+            continue
+
+        result = ApiRequest.make(
+            path=Self.path + '/' + nzbn,
+            method=HTTPMethod.GET,
+            access_token=access_token
+        )
+        
+        if result is None:
+            return None
+        
+        return Self.decode(result)
+
+    @classmethod
     def retrieve_many(
         Self: Type[Self],
         access_token: str,
@@ -234,7 +265,7 @@ class Entity:
             pass
 
         result = ApiRequest.make(
-            path=Self.list_path,
+            path=Self.path,
             method=HTTPMethod.GET,
             query_parameters=QueryParameters(parameters),
             access_token=access_token
