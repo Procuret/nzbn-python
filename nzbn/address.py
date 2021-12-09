@@ -57,6 +57,7 @@ class Address:
     start_date = property(lambda s: s._start_date)
     end_date = property(lambda s: s._end_date)
 
+    care_of: Optional[str] = property(lambda s: s._care_of)
     line1: str = property(lambda s: s._address_1)
     line2: Optional[str] = property(lambda s: s._address_2)
     line3: Optional[str] = property(lambda s: s._address_3)
