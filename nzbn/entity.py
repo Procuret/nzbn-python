@@ -5,6 +5,7 @@ author: hugh@procuret.com
 © Procuret Operating Pty Ltd
 """
 from typing import List, Optional, Dict, Any
+from nzbn.address import Address
 from nzbn.disposition import Disposition
 from nzbn.entity_type import EntityType
 from nzbn.entity_status import EntityStatus
@@ -18,6 +19,7 @@ from nzbn.time import NzbnTime
 from nzbn.trading_name import TradingName
 from nzbn.classification import Classification
 from typing import TypeVar, Type
+from nzbn.address import Address
 
 Self = TypeVar('Self', bound='Entity')
 
@@ -35,7 +37,8 @@ class Entity:
         trading_names: List[TradingName],
         classifications: List[Classification],
         registration_date: NzbnTime,
-        disposition: Disposition
+        disposition: Disposition,
+        addresses: List[Address]
     ) -> None:
 
         self._entity_name = entity_name
@@ -46,6 +49,7 @@ class Entity:
         self._classifications = classifications
         self._registration_date = registration_date
         self._disposition = disposition
+        self._addresses = addresses
 
         return
 
@@ -61,6 +65,7 @@ class Entity:
     disposition: Disposition = property(
         lambda s: s._disposition
     )
+    addresses: List[Address] = property(lambda s: s._addresses)
 
     @classmethod
     def decode(
@@ -84,7 +89,8 @@ class Entity:
                 1,
                 1,
                 1
-            )
+            ),
+            addresses=Address.decode_many(data['addresses']['addressList'])
         )
 
     @classmethod

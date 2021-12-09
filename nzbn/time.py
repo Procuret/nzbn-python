@@ -5,7 +5,7 @@ author: hugh@procuret.com
 © Procuret Operating Pty Ltd
 """
 from datetime import datetime, tzinfo
-from typing import TypeVar, Type
+from typing import Optional, TypeVar, Type
 
 Self = TypeVar('Self', bound='NzbnTime')
 
@@ -47,3 +47,14 @@ class NzbnTime(datetime):
             microsecond=time.microsecond,
             tzinfo=UTC
         )
+
+    @classmethod
+    def optionally_decode(
+        Self: Type[Self],
+        data: Optional[str]
+    ) -> Optional[Self]:
+
+        if data is None:
+            return None
+        
+        return Self.decode(data)
