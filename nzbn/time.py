@@ -29,13 +29,13 @@ UTC = TimeZoneUTC()
 
 class NzbnTime(datetime):
 
-    _FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
+    _FORMAT = '%Y-%m-%dT%H:%M:%S.%f%z'
 
+    @classmethod
     def decode(Self: Type[Self], data: str) -> Self:
 
-        data = data.replace('T', '_').replace('Z', '')
-
         time = datetime.strptime(data, Self._FORMAT)
+        time = time - time.tzinfo.utcoffset(time)
 
         return NzbnTime(
             year=time.year,

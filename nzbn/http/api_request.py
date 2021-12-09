@@ -14,7 +14,7 @@ from urllib.request import Request
 from urllib.request import urlopen
 from nzbn.version import VERSION as AGENT_VERSION
 
-API_ENDPOINT = 'https://sandbox.api.business.govt.nz'
+API_ENDPOINT = 'https://sandbox.api.business.govt.nz/services/v4/nzbn'
 USER_AGENT = 'NZBN Python ' + AGENT_VERSION
 
 
@@ -61,6 +61,14 @@ class ApiRequest:
             body: Optional[str] = None
             try:
                 body = error.read()
+                try:
+                    jsonbody = json.loads(body)
+                    if 'errorDescription' in jsonbody and (
+                        'Object Not Found' in jsonbody['errorDescription']
+                    ) and throw_on_404 is False:
+                        return None
+                except Exception:
+                    pass
             except Exception:
                 pass
             raise NzbnApiError(error.code, body=body)

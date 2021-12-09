@@ -7,3 +7,4 @@ nzbn.egg-info
 dist/*
 build/*
 *.pyc
+test.sh

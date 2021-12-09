@@ -35,7 +35,6 @@ class Entity:
         trading_names: List[TradingName],
         classifications: List[Classification],
         registration_date: NzbnTime,
-        previous_entity_names: List[str],
         disposition: Disposition
     ) -> None:
 
@@ -46,7 +45,6 @@ class Entity:
         self._trading_names = trading_names
         self._classifications = classifications
         self._registration_date = registration_date
-        self._previous_entity_names = previous_entity_names
         self._disposition = disposition
 
         return
@@ -60,9 +58,6 @@ class Entity:
         lambda s: s._classifications
     )
     registration_date: NzbnTime = property(lambda s: s._registration_date)
-    previous_entity_names: List[str] = property(
-        lambda s: s._previous_entity_names
-    )
     disposition: Disposition = property(
         lambda s: s._disposition
     )
@@ -105,6 +100,8 @@ class Entity:
         data: Dict[str, Any],
         disposition: Optional[Disposition] = None
     ) -> Self:
+        import json
+        #print(json.dumps(data, indent=4))
 
         return Self(
             entity_name=data['entityName'],
@@ -114,8 +111,8 @@ class Entity:
             trading_names=TradingName.decode_many(data['tradingNames']),
             classifications=Classification.decode_many(
                 data['classifications']
-            ),
-            previous_entity_names=data['previous_entity_names'],
+            ) if 'classifications' in data else [],
+            registration_date=NzbnTime.decode(data['registrationDate']),
             disposition=disposition or Disposition(
                 1,
                 1,
