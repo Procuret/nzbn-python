@@ -39,12 +39,9 @@ class Classification:
     ) -> Self:
 
         return Classification(
-            unique_identifier=(
-                data['unique_identifier'] if 'unique_identifier' in data
-                else None
-            ),
-            classification_code=data['classification_code'],
-            classification_description=data['classification_description']
+            unique_identifier=(data['uniqueIdentifier']),
+            classification_code=data['classificationCode'],
+            classification_description=data['classificationDescription']
         )
 
     @classmethod
