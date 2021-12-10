@@ -31,3 +31,4 @@ class NzbnApiError(NzbnError):
 
         return
     
+    body = property(lambda s: s._body)

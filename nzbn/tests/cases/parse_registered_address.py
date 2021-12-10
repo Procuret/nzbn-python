@@ -12,7 +12,7 @@ from nzbn.tests.test_result import Success, TestResult
 
 class ParseRegisteredAddress(Test):
 
-    NAME = 'Parse an Entity\s registered address'
+    NAME = 'Parse an Entity\'s registered address'
 
     def execute(self) -> TestResult:
 
