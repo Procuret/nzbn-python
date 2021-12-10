@@ -4,7 +4,7 @@ Classification Module
 author: hugh@procuret.com
 © Procuret Operating Pty Ltd
 """
-from typing import List, Dict, TypeVar, Type
+from typing import List, Dict, TypeVar, Type, Optional
 
 Self = TypeVar('Self', bound='Classification')
 
@@ -13,7 +13,7 @@ class Classification:
 
     def __init__(
         self,
-        unique_identifier: str,
+        unique_identifier: Optional[str],
         classification_code: str,
         classification_description: str
     ) -> None:
@@ -24,7 +24,9 @@ class Classification:
 
         return
 
-    unique_identifier = property(lambda s: s._unique_identifier)
+    unique_identifier: Optional[str] = property(
+        lambda s: s._unique_identifier
+    )
     classification_code = property(lambda s: s._classification_code)
     classification_description = property(
         lambda s: s._classification_description
@@ -37,7 +39,10 @@ class Classification:
     ) -> Self:
 
         return Classification(
-            unique_identifier=data['unique_identifier'],
+            unique_identifier=(
+                data['unique_identifier'] if 'unique_identifier' in data
+                else None
+            ),
             classification_code=data['classification_code'],
             classification_description=data['classification_description']
         )
