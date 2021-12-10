@@ -30,10 +30,10 @@ class TradingName:
     @classmethod
     def decode(Self: Type[Self], data: Dict[str, str]) -> Self:
         return Self(
-            unique_identifier=data['unique_identifier'],
+            unique_identifier=data['uniqueIdentifier'],
             name=data['name'],
-            start_date=NzbnTime.decode(data['start_date']),
-            end_date=NzbnTime.decode(data['end_date'])
+            start_date=NzbnTime.decode(data['startDate']),
+            end_date=NzbnTime.decode(data['endDate'])
         )
 
     @classmethod
