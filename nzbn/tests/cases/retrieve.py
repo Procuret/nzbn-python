@@ -17,7 +17,8 @@ class RetrieveEntity(Test):
 
         rocketwerkz = Entity.retrieve(
             access_token=self.access_token,
-            nzbn='9429032530384'
+            nzbn='9429032530384',
+            sandbox=True
         )
 
         if rocketwerkz is None:

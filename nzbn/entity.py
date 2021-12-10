@@ -114,7 +114,8 @@ class Entity:
     def retrieve(
         Self: Type[Self],
         access_token: str,
-        nzbn: str
+        nzbn: str,
+        sandbox: bool = False
     ) -> Optional[Self]:
 
         if not isinstance(access_token, str):
@@ -134,7 +135,8 @@ class Entity:
         result = ApiRequest.make(
             path=Self.path + '/' + nzbn,
             method=HTTPMethod.GET,
-            access_token=access_token
+            access_token=access_token,
+            sandbox=sandbox
         )
         
         if result is None:

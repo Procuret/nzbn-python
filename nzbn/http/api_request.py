@@ -14,7 +14,8 @@ from urllib.request import Request
 from urllib.request import urlopen
 from nzbn.version import VERSION as AGENT_VERSION
 
-API_ENDPOINT = 'https://sandbox.api.business.govt.nz/services/v4/nzbn'
+SANDBOX_ENDPOINT = 'https://sandbox.api.business.govt.nz/services/v4/nzbn'
+API_ENDPOINT = 'https://api.business.govt.nz/services/v4/nzbn'
 USER_AGENT = 'NZBN Python ' + AGENT_VERSION
 
 
@@ -27,10 +28,16 @@ class ApiRequest:
         access_token: Optional[str] = None,
         data: Optional[Union[Dict, List[Dict]]] = None,
         query_parameters: Optional[QueryParameters] = None,
-        api_endpoint: str = API_ENDPOINT,
-        throw_on_404: bool = False
+        api_endpoint: Optional[str] = None,
+        throw_on_404: bool = False,
+        sandbox: bool = False
     ) -> Optional[Union[Dict, List[Dict]]]:
         """Return the decoded json body of a response from the Procuret API"""
+
+        api_endpoint = api_endpoint or (
+            SANDBOX_ENDPOINT if sandbox is True
+            else API_ENDPOINT
+        )
 
         url = api_endpoint + path
         if query_parameters is not None:

@@ -133,7 +133,8 @@ class AbbreviatedEntity:
         entity_type: Optional[Union[
             EntityType,
             List[EntityType]
-        ]] = None
+        ]] = None,
+        sandbox: bool = False
     ) -> List[Self]:
 
 
@@ -231,7 +232,8 @@ class AbbreviatedEntity:
             path=Self.path,
             method=HTTPMethod.GET,
             query_parameters=QueryParameters(parameters),
-            access_token=access_token
+            access_token=access_token,
+            sandbox=sandbox
         )
 
         return Self.decode_encapsulated_list(result)

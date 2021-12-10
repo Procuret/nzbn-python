@@ -18,7 +18,8 @@ class ParseRegisteredAddress(Test):
 
         entity = Entity.retrieve(
             access_token=self.access_token,
-            nzbn='9429032530384'
+            nzbn='9429032530384',
+            sandbox=True
         )
 
         address = entity.registered_address

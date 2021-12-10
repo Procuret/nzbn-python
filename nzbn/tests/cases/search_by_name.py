@@ -17,7 +17,8 @@ class SearchByName(Test):
 
         entities = AbbreviatedEntity.retrieve_many(
             access_token=self.access_token,
-            search_text='COMPANY REBUILDERS HOLDINGS'
+            search_text='COMPANY REBUILDERS HOLDINGS',
+            sandbox=True
         )
 
         assert isinstance(entities, list)
