@@ -4,7 +4,7 @@ Trading Name Module
 author: hugh@procuret.com
 © Procuret Operating Pty Ltd
 """
-from typing import Type,  TypeVar, Dict, List
+from typing import Type,  TypeVar, Dict, List, Optional
 from nzbn.time import NzbnTime
 
 Self = TypeVar('Self', bound='TradingName')
@@ -16,8 +16,8 @@ class TradingName:
         self,
         unique_identifier: str,
         name: str,
-        start_date: NzbnTime,
-        end_date: NzbnTime
+        start_date: Optional[NzbnTime],
+        end_date: Optional[NzbnTime]
     ) -> None:
 
         self._unique_identifier = unique_identifier
@@ -32,8 +32,8 @@ class TradingName:
         return Self(
             unique_identifier=data['uniqueIdentifier'],
             name=data['name'],
-            start_date=NzbnTime.decode(data['startDate']),
-            end_date=NzbnTime.decode(data['endDate'])
+            start_date=NzbnTime.optionally_decode(data['startDate']),
+            end_date=NzbnTime.optionally_decode(data['endDate'])
         )
 
     @classmethod
