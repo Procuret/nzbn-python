@@ -17,7 +17,7 @@ class AddressType(Enum):
     POSTAL = 'POSTAL'
     REGISTERED = 'REGISTERED'
     SERVICE = 'SERVICE'
-
+    RECORDS = 'RECORDS'
 
 
 class Address:
