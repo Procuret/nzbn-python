@@ -20,6 +20,7 @@ class AddressType(Enum):
     RECORDS = 'RECORDS'
     SHAREREGISTER = 'SHAREREGISTER'
     OFFICE = 'OFFICE'
+    DELIVERY = 'DELIVERY'
 
 
 class Address:
