@@ -30,7 +30,8 @@ class ApiRequest:
         query_parameters: Optional[QueryParameters] = None,
         api_endpoint: Optional[str] = None,
         throw_on_404: bool = False,
-        sandbox: bool = False
+        sandbox: bool = False,
+        timeout: int = 10
     ) -> Optional[Union[Dict, List[Dict]]]:
         """Return the decoded json body of a response from the Procuret API"""
 
@@ -61,7 +62,7 @@ class ApiRequest:
         )
 
         try:
-            response = urlopen(request).read()
+            response = urlopen(request, timeout=timeout).read()
         except HTTPError as error:
             if error.code == 404 and throw_on_404 is False:
                 return None
