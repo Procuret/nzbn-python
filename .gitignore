@@ -8,3 +8,4 @@ dist/*
 build/*
 *.pyc
 test.sh
+.DS_Store

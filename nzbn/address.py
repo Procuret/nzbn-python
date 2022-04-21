@@ -28,7 +28,7 @@ class Address:
     def __init__(
         self,
         unique_identifier: str,
-        start_date: NzbnTime,
+        start_date: Optional[NzbnTime],
         end_date: Optional[NzbnTime],
         care_of: Optional[str],
         address_1: str,
@@ -89,7 +89,7 @@ class Address:
 
         return Address(
             unique_identifier=data['uniqueIdentifier'],
-            start_date=NzbnTime.decode(data['startDate']),
+            start_date=NzbnTime.optionally_decode(data['startDate']),
             end_date=NzbnTime.optionally_decode(data['endDate']),
             care_of=data['careOf'],
             address_1=data['address1'],
