@@ -4,7 +4,7 @@ Time Module
 author: hugh@procuret.com
 © Procuret Operating Pty Ltd
 """
-from datetime import datetime, tzinfo
+from datetime import datetime, tzinfo, timedelta
 from typing import Optional, TypeVar, Type
 
 Self = TypeVar('Self', bound='NzbnTime')
@@ -15,13 +15,13 @@ class TimeZoneUTC(tzinfo):
     UTC timezone.
     """
     def utcoffset(self, dt):
-        return datetime.timedelta(0)
+        return timedelta(0)
 
     def tzname(self, dt):
         return 'UTC'
 
     def dst(self, dt):
-        return datetime.timedelta(0)
+        return timedelta(0)
 
 
 UTC = TimeZoneUTC()
