@@ -34,7 +34,7 @@ class AbbreviatedEntity:
         entity_type: EntityType,
         trading_names: List[TradingName],
         classifications: List[Classification],
-        registration_date: NzbnTime,
+        registration_date: Optional[NzbnTime],
         disposition: Disposition
     ) -> None:
 
@@ -57,7 +57,9 @@ class AbbreviatedEntity:
     classifications: List[Classification] = property(
         lambda s: s._classifications
     )
-    registration_date: NzbnTime = property(lambda s: s._registration_date)
+    registration_date: Optional[NzbnTime] = property(
+        lambda s: s._registration_date
+    )
     disposition: Disposition = property(
         lambda s: s._disposition
     )
@@ -110,7 +112,9 @@ class AbbreviatedEntity:
             classifications=Classification.decode_many(
                 data['classifications']
             ) if 'classifications' in data else [],
-            registration_date=NzbnTime.decode(data['registrationDate']),
+            registration_date=NzbnTime.optionally_decode(
+                data['registrationDate']
+            ),
             disposition=disposition or Disposition(
                 1,
                 1,
