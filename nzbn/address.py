@@ -77,7 +77,7 @@ class Address:
 
     expired: bool = property(
         lambda s: (
-            s._end_date is not None and s._end_date <= datetime.utcnow()
+            s._end_date is not None and s._end_date <= NzbnTime.utcnow()
         )
     )
     not_expired: bool = property(lambda s: not s.expired)

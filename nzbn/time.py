@@ -58,3 +58,21 @@ class NzbnTime(datetime):
             return None
         
         return Self.decode(data)
+
+    @classmethod
+    def utcnow(Self: Type[Self]) -> Self:
+        time = datetime.utcnow()
+        return Self._from_datetime(time)
+
+    @classmethod
+    def _from_datetime(Self: Type[Self], time: datetime) -> Self:
+        return Self(
+            year=time.year,
+            month=time.month,
+            day=time.day,
+            hour=time.hour,
+            minute=time.minute,
+            second=time.second,
+            microsecond=time.microsecond,
+            tzinfo=UTC
+        )
