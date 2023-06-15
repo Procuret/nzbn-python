@@ -14,8 +14,8 @@ from urllib.request import Request
 from urllib.request import urlopen
 from nzbn.version import VERSION as AGENT_VERSION
 
-SANDBOX_ENDPOINT = 'https://sandbox.api.business.govt.nz/services/v4/nzbn'
-API_ENDPOINT = 'https://api.business.govt.nz/services/v4/nzbn'
+SANDBOX_ENDPOINT = 'https://api.business.govt.nz/sandbox/nzbn/v5'
+API_ENDPOINT = 'https://api.business.govt.nz/gateway/nzbn/v5/'
 USER_AGENT = 'NZBN Python ' + AGENT_VERSION
 
 
@@ -25,7 +25,7 @@ class ApiRequest:
     def make(
         path: str,
         method: HTTPMethod,
-        access_token: Optional[str] = None,
+        api_key: Optional[str] = None,
         data: Optional[Union[Dict, List[Dict]]] = None,
         query_parameters: Optional[QueryParameters] = None,
         api_endpoint: Optional[str] = None,
@@ -46,7 +46,7 @@ class ApiRequest:
 
         headers = {
             'User-Agent': USER_AGENT,
-            'Authorization': 'Bearer ' + access_token
+            'Ocp-Apim-Subscription-Key': api_key
         }
 
         encoded_data: Optional[bytes] = None

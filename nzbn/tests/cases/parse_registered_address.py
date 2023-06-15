@@ -17,7 +17,7 @@ class ParseRegisteredAddress(Test):
     def execute(self) -> TestResult:
 
         entity = Entity.retrieve(
-            access_token=self.access_token,
+            api_key=self.api_key,
             nzbn='9429032530384',
             sandbox=True
         )

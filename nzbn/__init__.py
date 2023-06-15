@@ -1,5 +1,5 @@
-from nzbn.entity import Entity
-from nzbn.abbreviated_entity import AbbreviatedEntity
+from nzbn.entity import Entity, FullEntity
+from nzbn.abbreviated_entity import AbbreviatedEntity, SearchEntity
 from nzbn.classification import Classification
 from nzbn.disposition import Disposition
 from nzbn.entity_status import EntityStatus

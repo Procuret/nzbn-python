@@ -16,7 +16,7 @@ class SearchByName(Test):
     def execute(self) -> TestResult:
 
         entities = AbbreviatedEntity.retrieve_many(
-            access_token=self.access_token,
+            api_key=self.api_key,
             search_text='COMPANY REBUILDERS HOLDINGS',
             sandbox=True
         )

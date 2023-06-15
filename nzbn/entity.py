@@ -26,6 +26,9 @@ Self = TypeVar('Self', bound='Entity')
 
 class Entity:
 
+    # A "FullEntity" response from the NZBN API
+    # https://portal.api.business.govt.nz/api-details#api=nzbn&operation=EntitiesByNzbnGet
+
     path = '/entities'
 
     def __init__(
@@ -113,13 +116,13 @@ class Entity:
     @classmethod
     def retrieve(
         Self: Type[Self],
-        access_token: str,
+        api_key: str,
         nzbn: str,
         sandbox: bool = False
     ) -> Optional[Self]:
 
-        if not isinstance(access_token, str):
-            raise NzbnTypeError('access_token', access_token, 'str')
+        if not isinstance(api_key, str):
+            raise NzbnTypeError('api_key', api_key, 'str')
         
         if not isinstance(nzbn, str):
             raise NzbnTypeError('nzbn', nzbn, 'str')
@@ -135,7 +138,7 @@ class Entity:
         result = ApiRequest.make(
             path=Self.path + '/' + nzbn,
             method=HTTPMethod.GET,
-            access_token=access_token,
+            api_key=api_key,
             sandbox=sandbox
         )
         
@@ -143,3 +146,5 @@ class Entity:
             return None
         
         return Self.decode(result)
+
+FullEntity = Entity

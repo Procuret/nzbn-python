@@ -32,7 +32,7 @@ class Test:
 
         arguments = CommandLine.load()
 
-        self._access_token = arguments.require(
+        self._api_key = arguments.require(
             key='--access-token',
             of_type=str,
             type_name='string'
@@ -46,7 +46,7 @@ class Test:
     is_complete = property(lambda s: s._is_complete())
     time_elapsed = property(lambda s: s._time_elapsed())
 
-    access_token = property(lambda s: s._access_token)
+    api_key = property(lambda s: s._api_key)
 
     def run(self) -> None:
         """Run the test"""

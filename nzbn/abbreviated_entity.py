@@ -126,7 +126,7 @@ class AbbreviatedEntity:
     @classmethod
     def retrieve_many(
         Self: Type[Self],
-        access_token: str,
+        api_key: str,
         page: int = 0,
         limit: int = 20,
         search_text: Optional[str] = None,
@@ -236,8 +236,10 @@ class AbbreviatedEntity:
             path=Self.path,
             method=HTTPMethod.GET,
             query_parameters=QueryParameters(parameters),
-            access_token=access_token,
+            api_key=api_key,
             sandbox=sandbox
         )
 
         return Self.decode_encapsulated_list(result)
+
+SearchEntity = AbbreviatedEntity
