@@ -28,7 +28,7 @@ class AbbreviatedEntity:
 
     def __init__(
         self,
-        entity_name: str,
+        entity_name: Optional[str],
         status: EntityStatus,
         nzbn: str,
         entity_type: EntityType,
@@ -49,7 +49,7 @@ class AbbreviatedEntity:
 
         return
 
-    entity_name: str = property(lambda s: s._entity_name)
+    entity_name: Optional[str] = property(lambda s: s._entity_name)
     status: EntityStatus = property(lambda s: s._status)
     nzbn: str = property(lambda s: s._nzbn)
     entity_type: EntityType = property(lambda s: s._entity_type)
